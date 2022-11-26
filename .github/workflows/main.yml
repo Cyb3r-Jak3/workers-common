@@ -60,9 +60,12 @@ jobs:
 
       - run: npm ci
 
-      - run: npm pack
+      - uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: '*.tar.gz'
 
       - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
