@@ -1,7 +1,7 @@
 {
-    "name": "@cyb3rjak3/common",
+    "name": "@cyb3r-jak3/common",
     "version": "1.0.4",
-    "description": "Common typescript code that I use between many packages",
+    "description": "Common typescript code that I use between my projects.",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
     "scripts": {
@@ -14,13 +14,14 @@
         "type": "git",
         "url": "git+https://github.com/Cyb3r-Jak3/common-typescript.git"
     },
-    "author": "Cyb3rJak3",
+    "author": "Cyb3r-Jak3",
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/Cyb3r-Jak3/common-typescript/issues"
     },
-    "homepage": "https://github.com/Cyb3r-Jak3/common-typescript#readme",
+    "homepage": "https://github.com/Cyb3r-Jak3/common-typescript",
     "devDependencies": {
+        "@types/node": "^18.11.9",
         "@typescript-eslint/eslint-plugin": "^5.44.0",
         "@typescript-eslint/parser": "^5.44.0",
         "eslint": "^8.28.0",
