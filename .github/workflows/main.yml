@@ -24,11 +24,14 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+    - name: Restore NPM cache
+      uses: actions/cache@v3
+      continue-on-error: true
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
 
     - run: npm ci
 
@@ -53,18 +56,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
+      - name: Restore NPM cache
+        uses: actions/cache@v3
+        continue-on-error: true
         with:
-          node-version: '16.x'
-          cache: 'npm'
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - run: npm ci
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: build
-          path: '*.tar.gz'
-
       - run: npm publish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
