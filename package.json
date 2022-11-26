@@ -1,0 +1,30 @@
+{
+    "name": "@cyb3rjak3/common",
+    "version": "0.1.0",
+    "description": "Common typescript code that I use between many packages",
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsc",
+        "format": "prettier --write *.json src/**/*.ts",
+        "lint": "eslint --max-warnings=0 src/**/*.ts && prettier --check *.json src/**/*.ts"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Cyb3r-Jak3/common-typescript.git"
+    },
+    "author": "Cyb3rJak3",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Cyb3r-Jak3/common-typescript/issues"
+    },
+    "homepage": "https://github.com/Cyb3r-Jak3/common-typescript#readme",
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^5.44.0",
+        "@typescript-eslint/parser": "^5.44.0",
+        "eslint": "^8.28.0",
+        "prettier": "^2.8.0",
+        "typescript": "^4.9.3"
+    }
+}

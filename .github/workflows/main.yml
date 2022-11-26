@@ -1,0 +1,68 @@
+name: Node.js CI
+
+on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - 'src/**'
+      - '.github/workflows/main.yml'
+      - 'package.json'
+    tags:
+      - "v*"
+  pull_request:
+    branches: [main]
+    paths: ['package.json']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - run: npm ci
+
+    - run: npm run lint
+
+    - run: npm run build
+
+    - name: Compare the expected and actual lib/ directories
+      run: |
+        if [ "$(git diff --ignore-space-at-eol lib/ | wc -l)" -gt "0" ]; then
+          echo "Detected uncommitted changes after build.  See status below:"
+          git diff
+          exit 1
+        fi
+
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    needs: test
+    # only run if in main
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - run: npm pack
+
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
