@@ -3,7 +3,7 @@
  * @param buffer Crypto Buffer
  * @returns Hex string
  */
- function hex(buffer: ArrayBuffer): string {
+function hex(buffer: ArrayBuffer): string {
     const hexCodes = []
     const view = new DataView(buffer)
     for (let i = 0; i < view.byteLength; i += 4) {
@@ -27,7 +27,10 @@
  * @param algorithm Algorithm to use when hashing
  * @returns Hash
  */
-export async function GenerateHash(toHash: string, algorithm: AlgorithmIdentifier): Promise<string> {
+export async function GenerateHash(
+    toHash: string,
+    algorithm: AlgorithmIdentifier
+): Promise<string> {
     return hex(
         await crypto.subtle.digest(
             algorithm,
