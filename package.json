@@ -1,6 +1,6 @@
 {
     "name": "@cyb3r-jak3/common",
-    "version": "1.0.4",
+    "version": "2.0.0",
     "description": "Common typescript code that I use between my projects.",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
