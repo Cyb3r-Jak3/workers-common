@@ -1,6 +1,6 @@
 {
     "name": "@cyb3rjak3/common",
-    "version": "1.0.4",
+    "version": "1.0.3",
     "description": "Common typescript code that I use between many packages",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
