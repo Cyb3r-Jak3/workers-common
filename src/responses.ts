@@ -28,7 +28,7 @@ export function JSONResponse(
         }
     }
     return new Response(JSON.stringify(ResponseData), {
-        status: status,
+        status,
         headers: send_headers,
     })
 }
@@ -40,7 +40,7 @@ export function JSONResponse(
  * @returns
  */
 export function JSONErrorResponse(errMessage: string, status = 500): Response {
-    return JSONResponse({ Error: errMessage }, { status: status })
+    return JSONResponse({ Error: errMessage }, { status })
 }
 
 /**
@@ -104,16 +104,14 @@ export function HandleCORS(
                 ).toString(),
             },
         })
-    } else {
-        // Handle standard OPTIONS request.
-        // If you want to allow other HTTP Methods, you can do that here.
-        return new Response(null, {
-            headers: {
-                Allow: (
-                    cors_headers?.AllowMethods ??
-                    DefaultCORSHeaders['Access-Control-Allow-Methods']
-                ).join(', '),
-            },
-        })
     }
+    // Handle standard OPTIONS request.
+    return new Response(null, {
+        headers: {
+            Allow: (
+                cors_headers?.AllowMethods ??
+                DefaultCORSHeaders['Access-Control-Allow-Methods']
+            ).join(', '),
+        },
+    })
 }
