@@ -5,6 +5,7 @@ on:
     branches:
       - '**'
     paths:
+      - '__tests__/**'
       - 'src/**'
       - '.github/workflows/main.yml'
       - 'package.json'
