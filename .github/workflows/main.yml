@@ -5,6 +5,7 @@ on:
     branches:
       - '**'
     paths:
+      - '__tests__/**'
       - 'src/**'
       - '.github/workflows/main.yml'
       - 'package.json'
@@ -19,10 +20,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x, 18.x]
+        node-version: [18.x]
 
     steps:
     - uses: actions/checkout@v3
+
+    - uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
 
     - name: Restore NPM cache
       uses: actions/cache@v3
@@ -36,6 +41,16 @@ jobs:
     - run: npm ci
 
     - run: npm run lint
+
+    - run: npm run test
+
+    - name: Coverage to Deepsource
+      if: ${{ env.DEEPSOURCE_DSN != null }}
+      run: |
+        curl https://deepsource.io/cli | sh
+        ./bin/deepsource report --analyzer test-coverage --key javascript --value-file ./coverage/cobertura-coverage.xml
+      env: 
+        DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
 
     - run: npm run build
 
@@ -55,6 +70,10 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
       - name: Restore NPM cache
         uses: actions/cache@v3
