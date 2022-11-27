@@ -23,6 +23,6 @@
         /* Advanced Options */
         "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
     },
-    "include": ["src/**/*.ts", "__tests__/responses.test.ts"],
+    "include": ["src/**/*.ts"],
     "exclude": ["node_modules", "lib"]
 }
