@@ -7,8 +7,9 @@
     "scripts": {
         "test": "jest",
         "build": "tsc",
-        "format": "prettier --write *.json src/**/*.ts",
-        "lint": "eslint --max-warnings=0 src/**/*.ts && prettier --check *.json src/**/*.ts"
+        "clean": "tsc --build --clean",
+        "format": "prettier --write *.json __tests__/**/*.ts src/**/*.ts",
+        "lint": "eslint --max-warnings=0 src/**/*.ts && prettier --check *.json __tests__/**/*.ts src/**/*.ts"
     },
     "repository": {
         "type": "git",

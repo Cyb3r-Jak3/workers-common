@@ -1,31 +1,70 @@
-import { JSONResponse, JSONErrorResponse, HandleCachedResponse, HandleCORS } from '../src/responses'
+import {
+    JSONResponse,
+    JSONErrorResponse,
+    HandleCachedResponse,
+    HandleCORS,
+} from '../src/responses'
 
 describe('JSONResponse', () => {
-    test('Basic', () => {
+    test('Basic', async () => {
         const resp = JSONResponse({ hello: 'world' })
         expect(resp.status).toEqual(200)
-        expect(resp.headers.get("content-type")).toEqual('application/json; charset=UTF-8')
+        expect(resp.headers.get('content-type')).toEqual(
+            'application/json; charset=UTF-8'
+        )
+        const jsonData = await resp.json()
+        expect(jsonData.success).toEqual(true)
+        expect(jsonData.results?.hello).toEqual('world')
     })
-    test('Custom Status', () => {
-        const resp = JSONResponse({hello: "world"}, {status: 400})
+    test('Custom Status', async () => {
+        const resp = JSONResponse(
+            { hello: 'world' },
+            { status: 400, success: false }
+        )
         expect(resp.status).toEqual(400)
+        const jsonData = await resp.json()
+        expect(jsonData.success).toEqual(false)
+        expect(jsonData.results?.hello).toEqual('world')
     })
-    test('Extra Header', () => {
-        const resp = JSONResponse({hello: "world"}, {extra_headers: {extra: "header"}})
+    test('Extra Headers', async () => {
+        const resp = JSONResponse(
+            { hello: 'world' },
+            { extra_headers: { extra: 'header' } }
+        )
         expect(resp.status).toEqual(200)
-        expect(resp.headers.get("extra")).toEqual("header")
+        expect(resp.headers.get('extra')).toEqual('header')
+        const jsonData = await resp.json()
+        expect(jsonData.results?.hello).toEqual('world')
     })
 })
 
 describe('JSONErrorResponse', () => {
-    test('Basic', () => {
-        const resp = JSONErrorResponse("error")
+    test('Basic', async () => {
+        const resp = JSONErrorResponse('error')
         expect(resp.status).toEqual(500)
-        expect(resp.headers.get("content-type")).toEqual('application/json; charset=UTF-8')
+        expect(resp.headers.get('content-type')).toEqual(
+            'application/json; charset=UTF-8'
+        )
+        const jsonData = await resp.json()
+        expect(jsonData.success).toEqual(false)
+        expect(jsonData.error).toEqual('error')
     })
-    test('Custom Status', () => {
-        const resp = JSONErrorResponse("error", 400)
+    test('Custom Status', async () => {
+        const resp = JSONErrorResponse('error', 400)
         expect(resp.status).toEqual(400)
+        const jsonData = await resp.json()
+        expect(jsonData.success).toEqual(false)
+        expect(jsonData.results)
+        expect(jsonData.error).toEqual('error')
+    })
+    test('Extra Error Message', async () => {
+        const resp = JSONErrorResponse('error', 400, "can't do that")
+        expect(resp.status).toEqual(400)
+        const jsonData = await resp.json()
+        expect(jsonData.success).toEqual(false)
+        expect(jsonData.results)
+        expect(jsonData.error).toEqual('error')
+        expect(jsonData.results.Error).toEqual("can't do that")
     })
 })
 
@@ -34,38 +73,59 @@ describe('HandleCacheResponse', () => {
         const resp = JSONResponse({ hello: 'world' })
         const cached = HandleCachedResponse(resp)
         expect(cached.status).toEqual(200)
-        expect(cached.headers.get("X-Worker-Cache")).toEqual('HIT')
+        expect(cached.headers.get('X-Worker-Cache')).toEqual('HIT')
     })
 })
 
-
 describe('HandleCORS', () => {
     test('No Headers with default response headers', () => {
-        const req = new Request("https://example.com")
+        const req = new Request('https://example.com')
         const resp = HandleCORS(req)
         expect(resp.status).toEqual(200)
-        expect(resp.headers.get("Allow")).toEqual('GET, HEAD, POST, OPTIONS')
+        expect(resp.headers.get('Allow')).toEqual('GET, HEAD, POST, OPTIONS')
     })
     test('No Headers with custom response headers', () => {
-        const req = new Request("https://example.com")
-        const resp = HandleCORS(req, {AllowMethods: ["GET", "OPTIONS"]})
+        const req = new Request('https://example.com')
+        const resp = HandleCORS(req, { AllowMethods: ['GET', 'OPTIONS'] })
         expect(resp.status).toEqual(200)
-        expect(resp.headers.get("Allow")).toEqual('GET, OPTIONS')
+        expect(resp.headers.get('Allow')).toEqual('GET, OPTIONS')
     })
     test('With headers with default responses headers', () => {
-        const req = new Request("https://example.com", {headers: {"Origin": "*", "Access-Control-Request-Method": "GET", "Access-Control-Request-Headers": "X-AUTH" }})
-        const resp = HandleCORS(req,)
+        const req = new Request('https://example.com', {
+            headers: {
+                Origin: '*',
+                'Access-Control-Request-Method': 'GET',
+                'Access-Control-Request-Headers': 'X-AUTH',
+            },
+        })
+        const resp = HandleCORS(req)
         expect(resp.status).toEqual(200)
-        expect(resp.headers.get("Access-Control-Allow-Origin")).toEqual('*')
-        expect(resp.headers.get("Access-Control-Allow-Methods")).toEqual('GET, HEAD, POST, OPTIONS')
-        expect(resp.headers.get("Access-Control-Max-Age")).toEqual('86400')
+        expect(resp.headers.get('Access-Control-Allow-Origin')).toEqual('*')
+        expect(resp.headers.get('Access-Control-Allow-Methods')).toEqual(
+            'GET, HEAD, POST, OPTIONS'
+        )
+        expect(resp.headers.get('Access-Control-Max-Age')).toEqual('86400')
     })
     test('With headers with custom responses headers', () => {
-        const req = new Request("https://example.com", {headers: {"Origin": "*", "Access-Control-Request-Method": "GET", "Access-Control-Request-Headers": "X-AUTH" }})
-        const resp = HandleCORS(req, {AllowOrigin: "example.com", AllowMethods: ["GET, OPTIONS"], MaxAge: 10})
+        const req = new Request('https://example.com', {
+            headers: {
+                Origin: '*',
+                'Access-Control-Request-Method': 'GET',
+                'Access-Control-Request-Headers': 'X-AUTH',
+            },
+        })
+        const resp = HandleCORS(req, {
+            AllowOrigin: 'example.com',
+            AllowMethods: ['GET, OPTIONS'],
+            MaxAge: 10,
+        })
         expect(resp.status).toEqual(200)
-        expect(resp.headers.get("Access-Control-Allow-Origin")).toEqual('example.com')
-        expect(resp.headers.get("Access-Control-Allow-Methods")).toEqual('GET, OPTIONS')
-        expect(resp.headers.get("Access-Control-Max-Age")).toEqual('10')
+        expect(resp.headers.get('Access-Control-Allow-Origin')).toEqual(
+            'example.com'
+        )
+        expect(resp.headers.get('Access-Control-Allow-Methods')).toEqual(
+            'GET, OPTIONS'
+        )
+        expect(resp.headers.get('Access-Control-Max-Age')).toEqual('10')
     })
 })

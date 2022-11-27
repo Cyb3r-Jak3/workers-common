@@ -1,5 +1,7 @@
 interface JSONResponseOptions {
     status?: number
+    success?: boolean
+    error?: string
     extra_headers?: Record<string, string>
 }
 
@@ -19,6 +21,7 @@ export function JSONResponse(
     } else {
         status = options.status
     }
+
     const send_headers = new Headers({
         'content-type': 'application/json; charset=UTF-8',
     })
@@ -27,10 +30,17 @@ export function JSONResponse(
             send_headers.append(key, options.extra_headers[key])
         }
     }
-    return new Response(JSON.stringify(ResponseData), {
-        status,
-        headers: send_headers,
-    })
+    return new Response(
+        JSON.stringify({
+            success: options?.success ?? true,
+            error: options?.error ?? null,
+            results: ResponseData,
+        }),
+        {
+            status,
+            headers: send_headers,
+        }
+    )
 }
 
 /**
@@ -39,8 +49,15 @@ export function JSONResponse(
  * @param status HTTP status code to return. Defaults to 500
  * @returns
  */
-export function JSONErrorResponse(errMessage: string, status = 500): Response {
-    return JSONResponse({ Error: errMessage }, { status })
+export function JSONErrorResponse(
+    errMessage: string,
+    status = 500,
+    extraError?: string
+): Response {
+    return JSONResponse(
+        { Error: extraError },
+        { status, success: false, error: errMessage }
+    )
 }
 
 /**

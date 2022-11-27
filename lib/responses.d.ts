@@ -1,5 +1,7 @@
 interface JSONResponseOptions {
     status?: number;
+    success?: boolean;
+    error?: string;
     extra_headers?: Record<string, string>;
 }
 /**
@@ -15,7 +17,7 @@ export declare function JSONResponse(ResponseData: string | unknown, options?: J
  * @param status HTTP status code to return. Defaults to 500
  * @returns
  */
-export declare function JSONErrorResponse(errMessage: string, status?: number): Response;
+export declare function JSONErrorResponse(errMessage: string, status?: number, extraError?: string): Response;
 /**
  *
  * @param resp Response that hit cache
