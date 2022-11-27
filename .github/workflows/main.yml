@@ -44,6 +44,14 @@ jobs:
 
     - run: npm run test
 
+    - name: Coverage to Deepsource
+      if: ${{ env.DEEPSOURCE_DSN != null }}
+      run: |
+        curl https://deepsource.io/cli | sh
+        ./bin/deepsource report --analyzer test-coverage --key javascript --value-file ./coverage/cobertura-coverage.xml
+      env: 
+        DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
+
     - run: npm run build
 
     - name: Compare the expected and actual lib/ directories
