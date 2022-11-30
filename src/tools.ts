@@ -50,3 +50,31 @@ export const ClampValue = (
     if (Number.isNaN(number)) return min
     return Math.max(min, Math.min(number, max))
 }
+
+/**
+ * Encode string as HTML.
+ *
+ * @see https://stackoverflow.com/a/48073476/10629172
+ *
+ * @param {string} str String to encode.
+ * @returns {string} Encoded string.
+ */
+export const EncodeHTML = (str: string): string => {
+    return str
+        .replace(/[\u00A0-\u9999<>&](?!#)/gim, (i) => {
+            return '&#' + i.charCodeAt(0) + ';'
+        })
+        .replace(/\u0008/gim, '')
+}
+
+/**
+ * Checks if a string is a valid hex color.
+ *
+ * @param {string} hexColor String to check.
+ * @returns {boolean} True if the given string is a valid hex color.
+ */
+export const IsValidHexColor = (hexColor: string): boolean => {
+    return new RegExp(
+        /^([A-Fa-f0-9]{8}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}|[A-Fa-f0-9]{4})$/
+    ).test(hexColor)
+}
