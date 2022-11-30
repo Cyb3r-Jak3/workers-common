@@ -52,7 +52,7 @@ jobs:
       env: 
         DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
 
-    - run: npm run build
+    - run: npm run build:new
 
     - name: Compare the expected and actual lib/ directories
       run: |
@@ -85,11 +85,14 @@ jobs:
             ${{ runner.os }}-node-
 
       - run: npm ci
+
       - run: npm publish --access public
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - run: npm pack
+
       - uses: actions/upload-artifact@v3
         with:
           name: npm-build
-          path: '*.tgz'
+          path: '**.tgz'
