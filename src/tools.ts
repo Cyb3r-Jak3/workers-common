@@ -64,7 +64,7 @@ export const EncodeHTML = (str: string): string => {
         .replace(/[\u00A0-\u9999<>&](?!#)/gim, (i) => {
             return '&#' + i.charCodeAt(0) + ';'
         })
-        .replace(/\u0008/gim, '')
+        .replace(/\u0008/gim, '') // eslint-disable-line no-control-regex
 }
 
 /**
