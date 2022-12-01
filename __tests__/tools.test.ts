@@ -1,4 +1,10 @@
-import { ParseBoolean, ParseStringArray, ClampValue } from '../src/tools'
+import {
+    ParseBoolean,
+    ParseStringArray,
+    ClampValue,
+    EncodeHTML,
+    IsValidHexColor,
+} from '../src/tools'
 
 describe('ParseBoolean', () => {
     test('Boolean', () => {
@@ -45,5 +51,23 @@ describe('ClampValue', () => {
     })
     test('String Number', () => {
         expect(ClampValue('11', 5, 12)).toEqual(11)
+    })
+})
+
+describe('EncodeHTML', () => {
+    test('No change', () => {
+        expect(EncodeHTML('no change')).toEqual('no change')
+    })
+    test('Change', () => {
+        expect(EncodeHTML('\u9999')).toEqual('&#39321;')
+    })
+})
+
+describe('IsValidHexColor', () => {
+    test('Valid Color', () => {
+        expect(IsValidHexColor('ff0000')).toEqual(true)
+    })
+    test('Invalid Color', () => {
+        expect(IsValidHexColor('')).toEqual(false)
     })
 })
