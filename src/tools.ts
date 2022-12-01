@@ -60,11 +60,9 @@ export const ClampValue = (
  * @returns {string} Encoded string.
  */
 export const EncodeHTML = (str: string): string => {
-    return str
-        .replace(/[\u00A0-\u9999<>&](?!#)/gim, (i) => {
-            return '&#' + i.charCodeAt(0) + ';'
-        })
-        .replace(/\u0008/gim, '') // eslint-disable-line no-control-regex
+    return str.replace(/[\u00A0-\u9999<>&](?!#)/gim, (i) => {
+        return `&#${i.charCodeAt(0)};`
+    })
 }
 
 /**
@@ -74,7 +72,8 @@ export const EncodeHTML = (str: string): string => {
  * @returns {boolean} True if the given string is a valid hex color.
  */
 export const IsValidHexColor = (hexColor: string): boolean => {
-    return new RegExp(
+    const hexRegex = new RegExp(
         /^([A-Fa-f0-9]{8}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}|[A-Fa-f0-9]{4})$/
-    ).test(hexColor)
+    )
+    return hexRegex.test(hexColor)
 }
