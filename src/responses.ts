@@ -5,6 +5,8 @@ interface JSONResponseOptions {
     extra_headers?: Record<string, string>
 }
 
+export const JSONContentHeader = 'application/json; charset=UTF-8'
+
 /**
  * Creates a JSON response
  * @param ResponseData Object to turn into JSON data
@@ -23,7 +25,7 @@ export function JSONResponse(
     }
 
     const send_headers = new Headers({
-        'content-type': 'application/json; charset=UTF-8',
+        'content-type': JSONContentHeader,
     })
     if (options?.extra_headers) {
         for (const key of Object.keys(options.extra_headers)) {

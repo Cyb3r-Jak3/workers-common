@@ -4,6 +4,7 @@ interface JSONResponseOptions {
     error?: string;
     extra_headers?: Record<string, string>;
 }
+export declare const JSONContentHeader = "application/json; charset=UTF-8";
 /**
  * Creates a JSON response
  * @param ResponseData Object to turn into JSON data
