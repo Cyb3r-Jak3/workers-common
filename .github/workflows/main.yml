@@ -34,9 +34,9 @@ jobs:
       continue-on-error: true
       with:
         path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-node-
+          ${{ runner.os }}-node-${{ matrix.node-version }}
 
     - run: npm ci
 
