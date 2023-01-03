@@ -4,6 +4,7 @@
     "description": "Common typescript code that I use between my projects.",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
+    "type": "module",
     "scripts": {
         "test": "jest",
         "build:new": "npm run clean && npm run build",
