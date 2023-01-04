@@ -1,4 +1,4 @@
-interface JSONResponseOptions {
+export interface JSONResponseOptions {
     status?: number
     success?: boolean
     error?: string
@@ -67,7 +67,6 @@ export function JSONErrorResponse(
  * @param resp Response that hit cache
  * @returns Response with X-Worker-Cache Header
  */
-
 export function HandleCachedResponse(resp: Response): Response {
     const newHeaders = new Headers(resp.headers)
     newHeaders.set('X-Worker-Cache', 'HIT')
