@@ -1,4 +1,4 @@
-interface JSONResponseOptions {
+export interface JSONResponseOptions {
     status?: number;
     success?: boolean;
     error?: string;
@@ -42,5 +42,4 @@ export declare const DefaultCORSHeaders: {
  * @returns CORs response
  */
 export declare function HandleCORS(request: Request, cors_headers?: CORS_Headers): Response;
-export {};
 //# sourceMappingURL=responses.d.ts.map
