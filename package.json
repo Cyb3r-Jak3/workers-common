@@ -1,7 +1,7 @@
 {
-    "name": "@cyb3r-jak3/common",
+    "name": "@cyb3r-jak3/workers-common",
     "version": "3.3.0",
-    "description": "Common typescript code that I use between my projects.",
+    "description": "Common typescript code that I use between my cloudflare workers projects.",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
     "type": "module",
@@ -24,7 +24,9 @@
     },
     "keywords": [
         "cyb3r-jak3",
-        "shared"
+        "shared",
+        "workers",
+        "cloudflare"
     ],
     "homepage": "https://github.com/Cyb3r-Jak3/common-typescript",
     "devDependencies": {
