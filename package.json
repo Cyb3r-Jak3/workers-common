@@ -4,7 +4,6 @@
     "description": "Common typescript code that I use between my cloudflare workers projects.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
-    "type": "module",
     "scripts": {
         "test": "jest --verbose",
         "build:new": "npm run clean && npm run build",
@@ -27,6 +26,11 @@
         "shared",
         "workers",
         "cloudflare"
+    ],
+    "files": [
+        "dist",
+        "LICENSE",
+        "README.md"
     ],
     "homepage": "https://github.com/Cyb3r-Jak3/common-typescript",
     "devDependencies": {
