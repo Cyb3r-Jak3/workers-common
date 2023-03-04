@@ -1,6 +1,7 @@
 import {
     JSONResponse,
-    JSONErrorResponse,
+    JSONAPIResponse,
+    JSONAPIErrorResponse,
     HandleCachedResponse,
     HandleCORS,
 } from '../src/responses'
@@ -13,11 +14,42 @@ describe('JSONResponse', () => {
             'application/json; charset=UTF-8'
         )
         const jsonData = await resp.json()
+        expect(jsonData.hello).toEqual('world')
+    })
+    test('Custom Status', async () => {
+        const resp = JSONResponse(
+            { hello: 'world' },
+            { status: 400, success: false }
+        )
+        expect(resp.status).toEqual(400)
+        const jsonData = await resp.json()
+        expect(jsonData.hello).toEqual('world')
+    })
+    test('Extra Headers', async () => {
+        const resp = JSONResponse(
+            { hello: 'world' },
+            { extra_headers: { extra: 'header' } }
+        )
+        expect(resp.status).toEqual(200)
+        expect(resp.headers.get('extra')).toEqual('header')
+        const jsonData = await resp.json()
+        expect(jsonData.hello).toEqual('world')
+    })
+})
+
+describe('JSONAPIResponse', () => {
+    test('Basic', async () => {
+        const resp = JSONAPIResponse({ hello: 'world' })
+        expect(resp.status).toEqual(200)
+        expect(resp.headers.get('content-type')).toEqual(
+            'application/json; charset=UTF-8'
+        )
+        const jsonData = await resp.json()
         expect(jsonData.success).toEqual(true)
         expect(jsonData.results?.hello).toEqual('world')
     })
     test('Custom Status', async () => {
-        const resp = JSONResponse(
+        const resp = JSONAPIResponse(
             { hello: 'world' },
             { status: 400, success: false }
         )
@@ -27,7 +59,7 @@ describe('JSONResponse', () => {
         expect(jsonData.results?.hello).toEqual('world')
     })
     test('Extra Headers', async () => {
-        const resp = JSONResponse(
+        const resp = JSONAPIResponse(
             { hello: 'world' },
             { extra_headers: { extra: 'header' } }
         )
@@ -40,7 +72,7 @@ describe('JSONResponse', () => {
 
 describe('JSONErrorResponse', () => {
     test('Basic', async () => {
-        const resp = JSONErrorResponse('error')
+        const resp = JSONAPIErrorResponse('error')
         expect(resp.status).toEqual(500)
         expect(resp.headers.get('content-type')).toEqual(
             'application/json; charset=UTF-8'
@@ -50,7 +82,7 @@ describe('JSONErrorResponse', () => {
         expect(jsonData.error).toEqual('error')
     })
     test('Custom Status', async () => {
-        const resp = JSONErrorResponse('error', 400)
+        const resp = JSONAPIErrorResponse('error', 400)
         expect(resp.status).toEqual(400)
         const jsonData = await resp.json()
         expect(jsonData.success).toEqual(false)
@@ -58,7 +90,7 @@ describe('JSONErrorResponse', () => {
         expect(jsonData.error).toEqual('error')
     })
     test('Extra Error Message', async () => {
-        const resp = JSONErrorResponse('error', 400, "can't do that")
+        const resp = JSONAPIErrorResponse('error', 400, "can't do that")
         expect(resp.status).toEqual(400)
         const jsonData = await resp.json()
         expect(jsonData.success).toEqual(false)
@@ -70,8 +102,7 @@ describe('JSONErrorResponse', () => {
 
 describe('HandleCacheResponse', () => {
     test('Basic', () => {
-        const resp = JSONResponse({ hello: 'world' })
-        const cached = HandleCachedResponse(resp)
+        const cached = HandleCachedResponse(JSONResponse({ hello: 'world' }))
         expect(cached.status).toEqual(200)
         expect(cached.headers.get('X-Worker-Cache')).toEqual('HIT')
     })
