@@ -2,7 +2,7 @@ version = 1
 
 test_patterns = ["__test__/**"]
 
-exclude_patterns = ["lib/**"]
+exclude_patterns = ["lib/**", "dist/**"]
 
 [[analyzers]]
 name = "test-coverage"
