@@ -1,8 +1,11 @@
-export interface JSONResponseOptions {
-    status?: number
+export interface JSONAPIResponseOptions extends JSONResponseOptions {
     success?: boolean
     error?: string
-    extra_headers?: Record<string, string>
+}
+
+export type JSONResponseOptions = {
+    status?: number
+    extra_headers?: HeadersInit
 }
 
 export const JSONContentHeader = 'application/json; charset=UTF-8'
@@ -10,12 +13,12 @@ export const JSONContentHeader = 'application/json; charset=UTF-8'
 /**
  * Creates a JSON response
  * @param ResponseData Object to turn into JSON data
- * @param options Extra options for
+ * @param options Extra options
  * @returns JSON Response
  */
 export function JSONResponse(
     ResponseData: string | unknown,
-    options?: JSONResponseOptions
+    options?: JSONAPIResponseOptions
 ): Response {
     let status: number
     if (options === undefined || options.status === undefined) {
@@ -32,16 +35,29 @@ export function JSONResponse(
             send_headers.append(key, options.extra_headers[key])
         }
     }
-    return new Response(
-        JSON.stringify({
+    return new Response(JSON.stringify(ResponseData), {
+        status,
+        headers: send_headers,
+    })
+}
+
+/**
+ * Creates a JSON API response
+ * @param ResponseData Object to turn into JSON data
+ * @param options Extra options
+ * @returns JSON Response
+ */
+export function JSONAPIResponse(
+    ResponseData: string | unknown,
+    options?: JSONAPIResponseOptions
+): Response {
+    return JSONResponse(
+        {
             success: options?.success ?? true,
             error: options?.error ?? null,
             results: ResponseData,
-        }),
-        {
-            status,
-            headers: send_headers,
-        }
+        },
+        options
     )
 }
 
@@ -51,12 +67,12 @@ export function JSONResponse(
  * @param status HTTP status code to return. Defaults to 500
  * @returns
  */
-export function JSONErrorResponse(
+export function JSONAPIErrorResponse(
     errMessage: string,
     status = 500,
     extraError?: string
 ): Response {
-    return JSONResponse(
+    return JSONAPIResponse(
         { Error: extraError },
         { status, success: false, error: errMessage }
     )

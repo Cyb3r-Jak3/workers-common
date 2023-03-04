@@ -1,15 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.HandleCORS = exports.DefaultCORSHeaders = exports.HandleCachedResponse = exports.JSONErrorResponse = exports.JSONResponse = exports.JSONContentHeader = void 0;
+exports.HandleCORS = exports.DefaultCORSHeaders = exports.HandleCachedResponse = exports.JSONAPIErrorResponse = exports.JSONAPIResponse = exports.JSONResponse = exports.JSONContentHeader = void 0;
 exports.JSONContentHeader = 'application/json; charset=UTF-8';
 /**
  * Creates a JSON response
  * @param ResponseData Object to turn into JSON data
- * @param options Extra options for
+ * @param options Extra options
  * @returns JSON Response
  */
 function JSONResponse(ResponseData, options) {
-    var _a, _b;
     var status;
     if (options === undefined || options.status === undefined) {
         status = 200;
@@ -21,32 +20,43 @@ function JSONResponse(ResponseData, options) {
         'content-type': exports.JSONContentHeader,
     });
     if (options === null || options === void 0 ? void 0 : options.extra_headers) {
-        for (var _i = 0, _c = Object.keys(options.extra_headers); _i < _c.length; _i++) {
-            var key = _c[_i];
+        for (var _i = 0, _a = Object.keys(options.extra_headers); _i < _a.length; _i++) {
+            var key = _a[_i];
             send_headers.append(key, options.extra_headers[key]);
         }
     }
-    return new Response(JSON.stringify({
-        success: (_a = options === null || options === void 0 ? void 0 : options.success) !== null && _a !== void 0 ? _a : true,
-        error: (_b = options === null || options === void 0 ? void 0 : options.error) !== null && _b !== void 0 ? _b : null,
-        results: ResponseData,
-    }), {
+    return new Response(JSON.stringify(ResponseData), {
         status: status,
         headers: send_headers,
     });
 }
 exports.JSONResponse = JSONResponse;
 /**
+ * Creates a JSON API response
+ * @param ResponseData Object to turn into JSON data
+ * @param options Extra options
+ * @returns JSON Response
+ */
+function JSONAPIResponse(ResponseData, options) {
+    var _a, _b;
+    return JSONResponse({
+        success: (_a = options === null || options === void 0 ? void 0 : options.success) !== null && _a !== void 0 ? _a : true,
+        error: (_b = options === null || options === void 0 ? void 0 : options.error) !== null && _b !== void 0 ? _b : null,
+        results: ResponseData,
+    }, options);
+}
+exports.JSONAPIResponse = JSONAPIResponse;
+/**
  * Simple wrapper for making JSON responses with error status codes
  * @param errMessage String or object to turn into JSON
  * @param status HTTP status code to return. Defaults to 500
  * @returns
  */
-function JSONErrorResponse(errMessage, status, extraError) {
+function JSONAPIErrorResponse(errMessage, status, extraError) {
     if (status === void 0) { status = 500; }
-    return JSONResponse({ Error: extraError }, { status: status, success: false, error: errMessage });
+    return JSONAPIResponse({ Error: extraError }, { status: status, success: false, error: errMessage });
 }
-exports.JSONErrorResponse = JSONErrorResponse;
+exports.JSONAPIErrorResponse = JSONAPIErrorResponse;
 /**
  *
  * @param resp Response that hit cache
