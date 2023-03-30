@@ -44,20 +44,12 @@ jobs:
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
-      if: ${{ matrix.node-version == '18.x' }}}
       with:
-        # token: ${{ secrets.CODECOV_TOKEN }}
         fail_ci_if_error: true
-        files: ./coverage-coverage.xml
-        verbose: true
-
-    # - name: Coverage to Deepsource
-    #   if: ${{ env.DEEPSOURCE_DSN != null && matrix.node-version == '18.x' }}
-    #   run: |
-    #     curl https://deepsource.io/cli | sh
-    #     ./bin/deepsource report --analyzer test-coverage --key javascript --value-file ./coverage/cobertura-coverage.xml
-    #   env: 
-    #     DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
+        files: ./coverage/cobertura-coverage.xml
+        env_vars: NODE
+      env:
+        NODE: ${{ matrix.node-version }}
 
     - run: npm run build:new
 
