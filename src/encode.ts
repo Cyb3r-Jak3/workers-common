@@ -3,7 +3,7 @@
  * @param buffer Crypto Buffer
  * @returns Hex string
  */
-function hex(buffer: ArrayBuffer): string {
+export function Hex(buffer: ArrayBuffer): string {
     const hexCodes = []
     const view = new DataView(buffer)
     for (let i = 0; i < view.byteLength; i += 4) {
@@ -31,10 +31,23 @@ export async function GenerateHash(
     toHash: string,
     algorithm: AlgorithmIdentifier
 ): Promise<string> {
-    return hex(
+    return Hex(
         await crypto.subtle.digest(
             algorithm,
             new TextEncoder().encode(toHash.trim())
         )
     )
+}
+
+/**
+ * Generates a buffer from a hex string
+ * @param hexString String to hash
+ * @returns ArrayBuffer
+ */
+export function FromHexStringToBytes(hexString: string): ArrayBufferLike {
+    const bytes = new Uint8Array(hexString.length / 2)
+    for (let idx = 0; idx < hexString.length; idx += 2) {
+        bytes[idx / 2] = parseInt(hexString.substring(idx, idx + 2), 16)
+    }
+    return bytes.buffer
 }
