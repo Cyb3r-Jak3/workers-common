@@ -36,13 +36,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GenerateHash = void 0;
+exports.FromHexStringToBytes = exports.GenerateHash = exports.Hex = void 0;
 /**
  * Turns the array buffer from crypto into a string. Stolen from stackoverflow
  * @param buffer Crypto Buffer
  * @returns Hex string
  */
-function hex(buffer) {
+function Hex(buffer) {
     var hexCodes = [];
     var view = new DataView(buffer);
     for (var i = 0; i < view.byteLength; i += 4) {
@@ -58,6 +58,7 @@ function hex(buffer) {
     // Join all the hex strings into one
     return hexCodes.join('');
 }
+exports.Hex = Hex;
 /**
  * Generates a hash from a string
  * @param toHash String to hash
@@ -70,7 +71,7 @@ function GenerateHash(toHash, algorithm) {
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    _a = hex;
+                    _a = Hex;
                     return [4 /*yield*/, crypto.subtle.digest(algorithm, new TextEncoder().encode(toHash.trim()))];
                 case 1: return [2 /*return*/, _a.apply(void 0, [_b.sent()])];
             }
@@ -78,3 +79,16 @@ function GenerateHash(toHash, algorithm) {
     });
 }
 exports.GenerateHash = GenerateHash;
+/**
+ * Generates a buffer from a hex string
+ * @param hexString String to hash
+ * @returns ArrayBuffer
+ */
+function FromHexStringToBytes(hexString) {
+    var bytes = new Uint8Array(hexString.length / 2);
+    for (var idx = 0; idx < hexString.length; idx += 2) {
+        bytes[idx / 2] = parseInt(hexString.substring(idx, idx + 2), 16);
+    }
+    return bytes.buffer;
+}
+exports.FromHexStringToBytes = FromHexStringToBytes;
