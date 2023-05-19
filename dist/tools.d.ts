@@ -38,3 +38,4 @@ export declare const EncodeHTML: (str: string) => string;
  * @returns {boolean} True if the given string is a valid hex color.
  */
 export declare const IsValidHexColor: (hexColor: string) => boolean;
+//# sourceMappingURL=tools.d.ts.map

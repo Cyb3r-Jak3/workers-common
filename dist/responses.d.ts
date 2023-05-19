@@ -13,14 +13,14 @@ export declare const JSONContentHeader = "application/json; charset=UTF-8";
  * @param options Extra options
  * @returns JSON Response
  */
-export declare function JSONResponse(ResponseData: string | unknown, options?: JSONAPIResponseOptions): Response;
+export declare function JSONResponse(ResponseData?: string | object, options?: JSONAPIResponseOptions): Response;
 /**
  * Creates a JSON API response
  * @param ResponseData Object to turn into JSON data
  * @param options Extra options
  * @returns JSON Response
  */
-export declare function JSONAPIResponse(ResponseData: string | unknown, options?: JSONAPIResponseOptions): Response;
+export declare function JSONAPIResponse(ResponseData?: string | unknown, options?: JSONAPIResponseOptions): Response;
 /**
  * Simple wrapper for making JSON responses with error status codes
  * @param errMessage String or object to turn into JSON
@@ -51,3 +51,4 @@ export declare const DefaultCORSHeaders: {
  * @returns CORs response
  */
 export declare function HandleCORS(request: Request, cors_headers?: CORS_Headers): Response;
+//# sourceMappingURL=responses.d.ts.map
