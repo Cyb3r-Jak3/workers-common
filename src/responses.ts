@@ -17,7 +17,7 @@ export const JSONContentHeader = 'application/json; charset=UTF-8'
  * @returns JSON Response
  */
 export function JSONResponse(
-    ResponseData: string | unknown,
+    ResponseData?: string | object,
     options?: JSONAPIResponseOptions
 ): Response {
     let status: number
@@ -35,7 +35,7 @@ export function JSONResponse(
             send_headers.append(key, options.extra_headers[key])
         }
     }
-    return new Response(JSON.stringify(ResponseData), {
+    return new Response(JSON.stringify(ResponseData ?? {}), {
         status,
         headers: send_headers,
     })
@@ -48,14 +48,14 @@ export function JSONResponse(
  * @returns JSON Response
  */
 export function JSONAPIResponse(
-    ResponseData: string | unknown,
+    ResponseData?: string | unknown,
     options?: JSONAPIResponseOptions
 ): Response {
     return JSONResponse(
         {
             success: options?.success ?? true,
             error: options?.error ?? null,
-            results: ResponseData,
+            results: ResponseData ?? {},
         },
         options
     )

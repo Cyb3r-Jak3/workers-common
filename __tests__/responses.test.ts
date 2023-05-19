@@ -35,6 +35,11 @@ describe('JSONResponse', () => {
         const jsonData = await resp.json()
         expect(jsonData.hello).toEqual('world')
     })
+    test('No Data', async () => {
+        const resp = JSONResponse()
+        await expect(resp.json()).resolves.toEqual({})
+        expect(resp.status).toEqual(200)
+    })
 })
 
 describe('JSONAPIResponse', () => {
@@ -68,9 +73,16 @@ describe('JSONAPIResponse', () => {
         const jsonData = await resp.json()
         expect(jsonData.results?.hello).toEqual('world')
     })
+    test('No Data', async () => {
+        const resp = JSONAPIResponse()
+        expect(resp.status).toEqual(200)
+        const jsonData = await resp.json()
+        expect(jsonData.results).toEqual({})
+        expect(jsonData.success).toEqual(true)
+    })
 })
 
-describe('JSONErrorResponse', () => {
+describe('JSONAPIErrorResponse', () => {
     test('Basic', async () => {
         const resp = JSONAPIErrorResponse('error')
         expect(resp.status).toEqual(500)
@@ -80,6 +92,7 @@ describe('JSONErrorResponse', () => {
         const jsonData = await resp.json()
         expect(jsonData.success).toEqual(false)
         expect(jsonData.error).toEqual('error')
+        expect(jsonData.results).toEqual({})
     })
     test('Custom Status', async () => {
         const resp = JSONAPIErrorResponse('error', 400)
