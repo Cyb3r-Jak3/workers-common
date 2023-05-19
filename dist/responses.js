@@ -25,7 +25,7 @@ function JSONResponse(ResponseData, options) {
             send_headers.append(key, options.extra_headers[key]);
         }
     }
-    return new Response(JSON.stringify(ResponseData), {
+    return new Response(JSON.stringify(ResponseData !== null && ResponseData !== void 0 ? ResponseData : {}), {
         status: status,
         headers: send_headers,
     });
@@ -42,7 +42,7 @@ function JSONAPIResponse(ResponseData, options) {
     return JSONResponse({
         success: (_a = options === null || options === void 0 ? void 0 : options.success) !== null && _a !== void 0 ? _a : true,
         error: (_b = options === null || options === void 0 ? void 0 : options.error) !== null && _b !== void 0 ? _b : null,
-        results: ResponseData,
+        results: ResponseData !== null && ResponseData !== void 0 ? ResponseData : {},
     }, options);
 }
 exports.JSONAPIResponse = JSONAPIResponse;
@@ -107,3 +107,4 @@ function HandleCORS(request, cors_headers) {
     });
 }
 exports.HandleCORS = HandleCORS;
+//# sourceMappingURL=responses.js.map

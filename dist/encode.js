@@ -92,3 +92,4 @@ function FromHexStringToBytes(hexString) {
     return bytes.buffer;
 }
 exports.FromHexStringToBytes = FromHexStringToBytes;
+//# sourceMappingURL=encode.js.map

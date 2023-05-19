@@ -17,3 +17,4 @@ export declare function GenerateHash(toHash: string, algorithm: AlgorithmIdentif
  * @returns ArrayBuffer
  */
 export declare function FromHexStringToBytes(hexString: string): ArrayBufferLike;
+//# sourceMappingURL=encode.d.ts.map

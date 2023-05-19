@@ -1,0 +1,1 @@
+{"version":3,"file":"encode.d.ts","sourceRoot":"","sources":["../src/encode.ts"],"names":[],"mappings":"AAAA;;;;GAIG;AACH,wBAAgB,GAAG,CAAC,MAAM,EAAE,WAAW,GAAG,MAAM,CAgB/C;AAED;;;;;GAKG;AACH,wBAAsB,YAAY,CAC9B,MAAM,EAAE,MAAM,EACd,SAAS,EAAE,mBAAmB,GAC/B,OAAO,CAAC,MAAM,CAAC,CAOjB;AAED;;;;GAIG;AACH,wBAAgB,oBAAoB,CAAC,SAAS,EAAE,MAAM,GAAG,eAAe,CAMvE"}
