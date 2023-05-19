@@ -99,7 +99,7 @@ describe('JSONAPIErrorResponse', () => {
         expect(resp.status).toEqual(400)
         const jsonData = await resp.json()
         expect(jsonData.success).toEqual(false)
-        expect(jsonData.results)
+        expect(jsonData.results).toEqual({})
         expect(jsonData.error).toEqual('error')
     })
     test('Extra Error Message', async () => {
@@ -107,7 +107,6 @@ describe('JSONAPIErrorResponse', () => {
         expect(resp.status).toEqual(400)
         const jsonData = await resp.json()
         expect(jsonData.success).toEqual(false)
-        expect(jsonData.results)
         expect(jsonData.error).toEqual('error')
         expect(jsonData.results.Error).toEqual("can't do that")
     })
