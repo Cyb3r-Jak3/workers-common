@@ -9,8 +9,8 @@
         "build:new": "npm run clean && npm run build",
         "build": "tsc",
         "clean": "tsc --build --clean",
-        "format": "prettier --write *.json __tests__/**/*.ts src/**/*.ts",
-        "lint": "eslint --max-warnings=0 src/**/*.ts && prettier --check *.json __tests__/**/*.ts src/**/*.ts"
+        "format": "prettier --write *.json __test__/**/*.ts src/**/*.ts",
+        "lint": "eslint --max-warnings=0 src/**/*.ts && prettier --check *.json __test__/**/*.ts src/**/*.ts"
     },
     "repository": {
         "type": "git",
