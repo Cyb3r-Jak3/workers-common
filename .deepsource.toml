@@ -1,6 +1,6 @@
 version = 1
 
-test_patterns = ["__test__/**"]
+test_patterns = ["__tests__/**"]
 
 exclude_patterns = ["lib/**", "dist/**"]
 
