@@ -1,6 +1,6 @@
 {
     "name": "@cyb3r-jak3/workers-common",
-    "version": "5.2.0",
+    "version": "5.3.0",
     "description": "Common typescript code that I use between my cloudflare workers projects.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
