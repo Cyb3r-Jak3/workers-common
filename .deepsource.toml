@@ -2,19 +2,19 @@ version = 1
 
 test_patterns = ["__tests__/**"]
 
-exclude_patterns = ["lib/**", "dist/**"]
+exclude_patterns = [
+  "lib/**",
+  "dist/**"
+]
 
 [[analyzers]]
 name = "test-coverage"
-enabled = true
 
 [[analyzers]]
 name = "secrets"
-enabled = true
 
 [[analyzers]]
 name = "javascript"
-enabled = true
 
   [analyzers.meta]
   environment = ["jest"]
