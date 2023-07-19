@@ -38,4 +38,15 @@ export declare const EncodeHTML: (str: string) => string;
  * @returns {boolean} True if the given string is a valid hex color.
  */
 export declare const IsValidHexColor: (hexColor: string) => boolean;
+/**
+ * Function to replace ${key} in a string with the value of key in the keys object
+ *
+ * Thanks to Leo in the Cloudflare Developer Discord for this function
+ * @param str The string to format
+ * @param keys The keys to format the string with
+ * @returns The formatted string
+ */
+export declare function Formatter(str: string, keys: {
+    [key: string]: string;
+}): string;
 //# sourceMappingURL=tools.d.ts.map

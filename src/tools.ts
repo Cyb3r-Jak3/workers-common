@@ -76,3 +76,20 @@ export const IsValidHexColor = (hexColor: string): boolean => {
         /^([A-Fa-f0-9]{8}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}|[A-Fa-f0-9]{4})$/
     ).test(hexColor)
 }
+/**
+ * Function to replace ${key} in a string with the value of key in the keys object
+ *
+ * Thanks to Leo in the Cloudflare Developer Discord for this function
+ * @param str The string to format
+ * @param keys The keys to format the string with
+ * @returns The formatted string
+ */
+export function Formatter(
+    str: string,
+    keys: { [key: string]: string }
+): string {
+    return str.replace(
+        /\${([a-zA-Z\d]+)}/g,
+        (_, name) => keys[name] ?? str.match(/\${([a-zA-Z\d]+)}/g)[0] ?? ''
+    )
+}

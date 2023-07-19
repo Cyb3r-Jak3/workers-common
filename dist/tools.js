@@ -1,7 +1,7 @@
 "use strict";
 // Taken from https://github.com/anuraghazra/github-readme-stats/blob/master/src/common/utils.js
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.IsValidHexColor = exports.EncodeHTML = exports.ClampValue = exports.ParseStringArray = exports.ParseBoolean = void 0;
+exports.Formatter = exports.IsValidHexColor = exports.EncodeHTML = exports.ClampValue = exports.ParseStringArray = exports.ParseBoolean = void 0;
 /**
  * Returns boolean if value is either "true" or "false" else the value as it is.
  *
@@ -77,4 +77,16 @@ var IsValidHexColor = function (hexColor) {
     return new RegExp(/^([A-Fa-f0-9]{8}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}|[A-Fa-f0-9]{4})$/).test(hexColor);
 };
 exports.IsValidHexColor = IsValidHexColor;
+/**
+ * Function to replace ${key} in a string with the value of key in the keys object
+ *
+ * Thanks to Leo in the Cloudflare Developer Discord for this function
+ * @param str The string to format
+ * @param keys The keys to format the string with
+ * @returns The formatted string
+ */
+function Formatter(str, keys) {
+    return str.replace(/\${([a-zA-Z\d]+)}/g, function (_, name) { var _a, _b; return (_b = (_a = keys[name]) !== null && _a !== void 0 ? _a : str.match(/\${([a-zA-Z\d]+)}/g)[0]) !== null && _b !== void 0 ? _b : ''; });
+}
+exports.Formatter = Formatter;
 //# sourceMappingURL=tools.js.map
