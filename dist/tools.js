@@ -86,7 +86,7 @@ exports.IsValidHexColor = IsValidHexColor;
  * @returns The formatted string
  */
 function Formatter(str, keys) {
-    return str.replace(/\${([a-zA-Z\d]+)}/g, function (_, name) { var _a, _b; return (_b = (_a = keys[name]) !== null && _a !== void 0 ? _a : str.match(/\${([a-zA-Z\d]+)}/g)[0]) !== null && _b !== void 0 ? _b : ''; });
+    return str.replace(/\${([a-zA-Z\d]+)}/g, function (_, name) { var _a; return (_a = keys[name]) !== null && _a !== void 0 ? _a : str.match(/\${([a-zA-Z\d]+)}/g)[0]; });
 }
 exports.Formatter = Formatter;
 //# sourceMappingURL=tools.js.map

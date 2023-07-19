@@ -90,6 +90,6 @@ export function Formatter(
 ): string {
     return str.replace(
         /\${([a-zA-Z\d]+)}/g,
-        (_, name) => keys[name] ?? str.match(/\${([a-zA-Z\d]+)}/g)[0] ?? ''
+        (_, name) => keys[name] ?? str.match(/\${([a-zA-Z\d]+)}/g)[0]
     )
 }
