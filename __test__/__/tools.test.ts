@@ -5,7 +5,7 @@ import {
     EncodeHTML,
     IsValidHexColor,
     Formatter,
-} from '../src/tools'
+} from '../../src/tools'
 
 describe('ParseBoolean', () => {
     test('Boolean', () => {

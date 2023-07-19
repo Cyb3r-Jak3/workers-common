@@ -1,4 +1,4 @@
-import { GenerateHash, Hex, FromHexStringToBytes } from '../src/encode'
+import { GenerateHash, Hex, FromHexStringToBytes } from '../../src/encode'
 
 describe('Generate Hash', () => {
     test('Good Hash', async () => {

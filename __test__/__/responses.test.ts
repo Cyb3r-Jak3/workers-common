@@ -4,7 +4,7 @@ import {
     JSONAPIErrorResponse,
     HandleCachedResponse,
     HandleCORS,
-} from '../src/responses'
+} from '../../src/responses'
 
 describe('JSONResponse', () => {
     test('Basic', async () => {
