@@ -15,3 +15,6 @@ name = "secrets"
 
 [[analyzers]]
 name = "javascript"
+
+  [analyzers.meta]
+  environment = ["jest"]

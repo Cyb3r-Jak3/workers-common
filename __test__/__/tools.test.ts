@@ -4,7 +4,8 @@ import {
     ClampValue,
     EncodeHTML,
     IsValidHexColor,
-} from '../src/tools'
+    Formatter,
+} from '../../src/tools'
 
 describe('ParseBoolean', () => {
     test('Boolean', () => {
@@ -69,5 +70,18 @@ describe('IsValidHexColor', () => {
     })
     test('Invalid Color', () => {
         expect(IsValidHexColor('')).toEqual(false)
+    })
+})
+
+describe('Formatter', () => {
+    test('Valid Format', () => {
+        expect(Formatter('Hello ${value1}', { value1: 'World' })).toEqual(
+            'Hello World'
+        )
+    })
+    test('Invalid Format', () => {
+        expect(Formatter('Hello ${value2}', { value1: 'World' })).toEqual(
+            'Hello ${value2}'
+        )
     })
 })
