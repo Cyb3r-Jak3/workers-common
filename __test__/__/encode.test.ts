@@ -7,10 +7,8 @@ describe('Generate Hash', () => {
             'b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9'
         )
     })
-    test('Invalid Hash', async () => {
-        await expect(GenerateHash('hello world', '')).rejects.toThrow(
-            'Unrecognized name.'
-        )
+    test('MD5 Hash', async () => {
+        expect(await GenerateHash('hello world', 'MD5')).toEqual('5eb63bbbe01eeed093cb22bb8f5acdc3')
     })
 })
 
