@@ -51,6 +51,7 @@ jobs:
         env_vars: NODE
       env:
         NODE: ${{ matrix.node-version }}
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
     - run: npm run build:new
 
