@@ -1,3 +1,4 @@
+export type AlgorithmIdentifier = 'SHA-256' | 'SHA-384' | 'SHA-512' | 'SHA-1' | 'MD5';
 /**
  * Turns the array buffer from crypto into a string. Stolen from stackoverflow
  * @param buffer Crypto Buffer
