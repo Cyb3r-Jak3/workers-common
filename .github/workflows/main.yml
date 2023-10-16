@@ -9,6 +9,7 @@ on:
       - 'src/**'
       - '.github/workflows/main.yml'
       - 'package.json'
+      - 'dist/**'
   pull_request:
     branches: [main]
     paths: ['package.json']
