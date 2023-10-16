@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FromHexStringToBytes = exports.GenerateHash = exports.Hex = void 0;
+exports.EncodeBase64Url = exports.DecodeBase64Url = exports.DecodeBase64 = exports.EncodeBase64 = exports.FromHexStringToBytes = exports.GenerateHash = exports.Hex = void 0;
 /**
  * Turns the array buffer from crypto into a string. Stolen from stackoverflow
  * @param buffer Crypto Buffer
@@ -92,4 +92,54 @@ function FromHexStringToBytes(hexString) {
     return bytes.buffer;
 }
 exports.FromHexStringToBytes = FromHexStringToBytes;
+// Copied from https://github.com/honojs/hono/blob/b6c0e45d5f141f00578191f912d755230936eda2/src/utils/encode.ts
+/**
+ * Encodes a Uint8Array into a base64 string with support for utf-8 characters
+ * @param buf Buffer to encode
+ * @returns base64 string
+ */
+var EncodeBase64 = function (buf) {
+    var binary = '';
+    var bytes = new Uint8Array(buf);
+    // #skipcq: JS-0361
+    for (var i = 0; i < bytes.length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary);
+};
+exports.EncodeBase64 = EncodeBase64;
+/**
+ * Decodes a base64 string into a Uint8Array with support for utf-8 characters
+ * @param str String to decode
+ * @returns Uint8Array of the decoded string
+ */
+var DecodeBase64 = function (str) {
+    var binary = atob(str);
+    var bytes = new Uint8Array(new ArrayBuffer(binary.length));
+    var half = binary.length / 2;
+    for (var i = 0, j = binary.length - 1; i <= half; i++, j--) {
+        bytes[i] = binary.charCodeAt(i);
+        bytes[j] = binary.charCodeAt(j);
+    }
+    return bytes;
+};
+exports.DecodeBase64 = DecodeBase64;
+/**
+ * Decodes a base64url string into a Uint8Array
+ * @param str URL string to decode
+ * @returns Uint8Array of the decoded string
+ */
+var DecodeBase64Url = function (str) {
+    return (0, exports.DecodeBase64)(str.replace(/_|-/g, function (m) { var _a; return (_a = ({ _: '/', '-': '+' })[m]) !== null && _a !== void 0 ? _a : m; }));
+};
+exports.DecodeBase64Url = DecodeBase64Url;
+/**
+ * Encodes a Uint8Array into a base64url string
+ * @param buf Encodes a Uint8Array into a base64url string
+ * @returns base64url string
+ */
+var EncodeBase64Url = function (buf) {
+    return (0, exports.EncodeBase64)(buf).replace(/\/|\+/g, function (m) { var _a; return (_a = ({ '/': '_', '+': '-' })[m]) !== null && _a !== void 0 ? _a : m; });
+};
+exports.EncodeBase64Url = EncodeBase64Url;
 //# sourceMappingURL=encode.js.map
