@@ -69,8 +69,8 @@ export function FromHexStringToBytes(hexString: string): ArrayBufferLike {
 export const EncodeBase64 = (buf: ArrayBufferLike): string => {
     let binary = ''
     const bytes = new Uint8Array(buf)
+    // #skipcq: JS-0361
     for (let i = 0; i < bytes.length; i++) {
-        // #skipcq: JS-0361
         binary += String.fromCharCode(bytes[i])
     }
     return btoa(binary)
