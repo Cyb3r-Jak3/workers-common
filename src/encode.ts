@@ -58,3 +58,55 @@ export function FromHexStringToBytes(hexString: string): ArrayBufferLike {
     }
     return bytes.buffer
 }
+
+// Copied from https://github.com/honojs/hono/blob/b6c0e45d5f141f00578191f912d755230936eda2/src/utils/encode.ts
+
+/**
+ * Encodes a Uint8Array into a base64 string with support for utf-8 characters
+ * @param buf Buffer to encode
+ * @returns base64 string
+ */
+export const EncodeBase64 = (buf: ArrayBufferLike): string => {
+    let binary = ''
+    const bytes = new Uint8Array(buf)
+    // #skipcq: JS-0361
+    for (let i = 0; i < bytes.length; i++) {
+        binary += String.fromCharCode(bytes[i])
+    }
+    return btoa(binary)
+}
+
+/**
+ * Decodes a base64 string into a Uint8Array with support for utf-8 characters
+ * @param str String to decode
+ * @returns Uint8Array of the decoded string
+ */
+export const DecodeBase64 = (str: string): Uint8Array => {
+    const binary = atob(str)
+    const bytes = new Uint8Array(new ArrayBuffer(binary.length))
+    const half = binary.length / 2
+    for (let i = 0, j = binary.length - 1; i <= half; i++, j--) {
+        bytes[i] = binary.charCodeAt(i)
+        bytes[j] = binary.charCodeAt(j)
+    }
+    return bytes
+}
+
+/**
+ * Decodes a base64url string into a Uint8Array
+ * @param str URL string to decode
+ * @returns Uint8Array of the decoded string
+ */
+export const DecodeBase64Url = (str: string): Uint8Array => {
+    return DecodeBase64(
+        str.replace(/_|-/g, (m) => ({ _: '/', '-': '+' })[m] ?? m)
+    )
+}
+
+/**
+ * Encodes a Uint8Array into a base64url string
+ * @param buf Encodes a Uint8Array into a base64url string
+ * @returns base64url string
+ */
+export const EncodeBase64Url = (buf: ArrayBufferLike): string =>
+    EncodeBase64(buf).replace(/\/|\+/g, (m) => ({ '/': '_', '+': '-' })[m] ?? m)
