@@ -5,6 +5,7 @@ import {
     HandleCachedResponse,
     HandleCORS,
 } from '../../src/responses'
+import { describe, expect, test } from 'vitest'
 
 describe('JSONResponse', () => {
     test('Basic', async () => {
