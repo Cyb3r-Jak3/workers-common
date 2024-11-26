@@ -25,24 +25,22 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - uses: actions/setup-node@v4
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 9
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
 
-    - name: Restore NPM cache
-      uses: actions/cache@v4
-      continue-on-error: true
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-${{ matrix.node-version }}
+    - run: pnpm install
 
-    - run: npm ci
+    - run: pnpm run lint
 
-    - run: npm run lint
-
-    - run: npm run test
+    - run: pnpm run test
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5
@@ -54,7 +52,7 @@ jobs:
         NODE: ${{ matrix.node-version }}
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-    - run: npm run build:new
+    - run: pnpm run build:new
 
     - name: Compare the expected and actual lib/ directories
       run: |
