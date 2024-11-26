@@ -48,9 +48,15 @@ jobs:
         fail_ci_if_error: true
         files: ./coverage/cobertura-coverage.xml
         env_vars: NODE
+        token: ${{ secrets.CODECOV_TOKEN }}
       env:
         NODE: ${{ matrix.node-version }}
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+    - name: Upload test results to Codecov
+      if: ${{ !cancelled() }}
+      uses: codecov/test-results-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
 
     - run: pnpm run build:new
 

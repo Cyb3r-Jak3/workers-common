@@ -5,8 +5,10 @@ export default defineWorkersConfig({
   test: {
     coverage: {
         provider: 'istanbul',
-        reporter: ['text', 'cobertura']
+        reporter: ['text', 'cobertura'],
     },
+    reporters: ['default', 'junit'],
+    outputFile: 'junit.xml',
     poolOptions: {
         workers: {
             miniflare: {
