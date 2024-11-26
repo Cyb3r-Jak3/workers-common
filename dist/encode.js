@@ -38,7 +38,8 @@ function Hex(buffer) {
  * Generates a hash from a string
  * @param toHash String to hash
  * @param algorithm Algorithm to use when hashing
- * @returns Hash
+ * @returns Hex string of the hash
+ * @throws Error if the algorithm is not supported
  */
 function GenerateHash(toHash, algorithm) {
     return __awaiter(this, void 0, void 0, function* () {
