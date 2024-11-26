@@ -1,6 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.HandleCORS = exports.DefaultCORSHeaders = exports.HandleCachedResponse = exports.JSONAPIErrorResponse = exports.JSONAPIResponse = exports.JSONResponse = exports.JSONContentHeader = void 0;
+exports.DefaultCORSHeaders = exports.JSONContentHeader = void 0;
+exports.JSONResponse = JSONResponse;
+exports.JSONAPIResponse = JSONAPIResponse;
+exports.JSONAPIErrorResponse = JSONAPIErrorResponse;
+exports.HandleCachedResponse = HandleCachedResponse;
+exports.HandleCORS = HandleCORS;
 exports.JSONContentHeader = 'application/json; charset=UTF-8';
 /**
  * Creates a JSON response
@@ -9,28 +14,26 @@ exports.JSONContentHeader = 'application/json; charset=UTF-8';
  * @returns JSON Response
  */
 function JSONResponse(ResponseData, options) {
-    var status;
+    let status;
     if (options === undefined || options.status === undefined) {
         status = 200;
     }
     else {
         status = options.status;
     }
-    var send_headers = new Headers({
+    const send_headers = new Headers({
         'content-type': exports.JSONContentHeader,
     });
     if (options === null || options === void 0 ? void 0 : options.extra_headers) {
-        for (var _i = 0, _a = Object.keys(options.extra_headers); _i < _a.length; _i++) {
-            var key = _a[_i];
+        for (const key of Object.keys(options.extra_headers)) {
             send_headers.append(key, options.extra_headers[key]);
         }
     }
     return new Response(JSON.stringify(ResponseData !== null && ResponseData !== void 0 ? ResponseData : {}), {
-        status: status,
+        status,
         headers: send_headers,
     });
 }
-exports.JSONResponse = JSONResponse;
 /**
  * Creates a JSON API response
  * @param ResponseData Object to turn into JSON data
@@ -45,25 +48,22 @@ function JSONAPIResponse(ResponseData, options) {
         results: ResponseData !== null && ResponseData !== void 0 ? ResponseData : {},
     }, options);
 }
-exports.JSONAPIResponse = JSONAPIResponse;
 /**
  * Simple wrapper for making JSON responses with error status codes
  * @param errMessage String or object to turn into JSON
  * @param status HTTP status code to return. Defaults to 500
  * @returns
  */
-function JSONAPIErrorResponse(errMessage, status, extraError) {
-    if (status === void 0) { status = 500; }
-    return JSONAPIResponse({ Error: extraError }, { status: status, success: false, error: errMessage });
+function JSONAPIErrorResponse(errMessage, status = 500, extraError) {
+    return JSONAPIResponse({ Error: extraError }, { status, success: false, error: errMessage });
 }
-exports.JSONAPIErrorResponse = JSONAPIErrorResponse;
 /**
  *
  * @param resp Response that hit cache
  * @returns Response with X-Worker-Cache Header
  */
 function HandleCachedResponse(resp) {
-    var newHeaders = new Headers(resp.headers);
+    const newHeaders = new Headers(resp.headers);
     newHeaders.set('X-Worker-Cache', 'HIT');
     return new Response(resp.body, {
         status: resp.status,
@@ -71,7 +71,6 @@ function HandleCachedResponse(resp) {
         headers: newHeaders,
     });
 }
-exports.HandleCachedResponse = HandleCachedResponse;
 exports.DefaultCORSHeaders = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': ['GET', 'HEAD', 'POST', 'OPTIONS'],
@@ -87,7 +86,7 @@ function HandleCORS(request, cors_headers) {
     var _a, _b, _c, _d;
     // Make sure the necessary headers are present
     // for this to be a valid pre-flight request
-    var headers = request.headers;
+    const headers = request.headers;
     if (headers.get('Origin') !== null &&
         headers.get('Access-Control-Request-Method') !== null &&
         headers.get('Access-Control-Request-Headers') !== null) {
@@ -106,5 +105,4 @@ function HandleCORS(request, cors_headers) {
         },
     });
 }
-exports.HandleCORS = HandleCORS;
 //# sourceMappingURL=responses.js.map

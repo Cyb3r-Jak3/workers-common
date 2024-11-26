@@ -1,14 +1,15 @@
 "use strict";
 // Taken from https://github.com/anuraghazra/github-readme-stats/blob/master/src/common/utils.js
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Formatter = exports.IsValidHexColor = exports.EncodeHTML = exports.ClampValue = exports.ParseStringArray = exports.ParseBoolean = void 0;
+exports.IsValidHexColor = exports.EncodeHTML = exports.ClampValue = exports.ParseStringArray = exports.ParseBoolean = void 0;
+exports.Formatter = Formatter;
 /**
  * Returns boolean if value is either "true" or "false" else the value as it is.
  *
  * @param {string | boolean} value The value to parse.
  * @returns {boolean | undefined } The parsed value.
  */
-var ParseBoolean = function (value) {
+const ParseBoolean = (value) => {
     if (typeof value === 'boolean')
         return value;
     if (typeof value === 'string') {
@@ -29,8 +30,7 @@ exports.ParseBoolean = ParseBoolean;
  * @param {delimiter} str Character to split string by
  * @returns {string[]} The array of strings.
  */
-var ParseStringArray = function (str, delimiter) {
-    if (delimiter === void 0) { delimiter = ','; }
+const ParseStringArray = (str, delimiter = ',') => {
     if (!str)
         return [];
     return str.split(delimiter);
@@ -44,7 +44,7 @@ exports.ParseStringArray = ParseStringArray;
  * @param {number} max The maximum value.
  * returns {number} The clamped number.
  */
-var ClampValue = function (number, min, max) {
+const ClampValue = (number, min, max) => {
     if (typeof number === 'string') {
         number = parseInt(number);
     }
@@ -61,9 +61,9 @@ exports.ClampValue = ClampValue;
  * @param {string} str String to encode.
  * @returns {string} Encoded string.
  */
-var EncodeHTML = function (str) {
-    return str.replace(/[\u00A0-\u9999<>&](?!#)/gimu, function (i) {
-        return "&#".concat(i.charCodeAt(0), ";");
+const EncodeHTML = (str) => {
+    return str.replace(/[\u00A0-\u9999<>&](?!#)/gimu, (i) => {
+        return `&#${i.charCodeAt(0)};`;
     });
 };
 exports.EncodeHTML = EncodeHTML;
@@ -73,7 +73,7 @@ exports.EncodeHTML = EncodeHTML;
  * @param {string} hexColor String to check.
  * @returns {boolean} True if the given string is a valid hex color.
  */
-var IsValidHexColor = function (hexColor) {
+const IsValidHexColor = (hexColor) => {
     return new RegExp(/^([A-Fa-f0-9]{8}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}|[A-Fa-f0-9]{4})$/).test(hexColor);
 };
 exports.IsValidHexColor = IsValidHexColor;
@@ -86,7 +86,6 @@ exports.IsValidHexColor = IsValidHexColor;
  * @returns The formatted string
  */
 function Formatter(str, keys) {
-    return str.replace(/\${([a-zA-Z\d]+)}/g, function (_, name) { var _a; return (_a = keys[name]) !== null && _a !== void 0 ? _a : str.match(/\${([a-zA-Z\d]+)}/g)[0]; });
+    return str.replace(/\${([a-zA-Z\d]+)}/g, (_, name) => { var _a; return (_a = keys[name]) !== null && _a !== void 0 ? _a : str.match(/\${([a-zA-Z\d]+)}/g)[0]; });
 }
-exports.Formatter = Formatter;
 //# sourceMappingURL=tools.js.map

@@ -5,6 +5,7 @@ import {
     DecodeBase64Url,
     EncodeBase64Url,
 } from '../../src/encode'
+import { describe, expect, test, it } from 'vitest'
 
 describe('Generate Hash', () => {
     test('Good Hash', async () => {
