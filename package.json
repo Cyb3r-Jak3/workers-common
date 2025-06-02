@@ -35,7 +35,7 @@
     ],
     "homepage": "https://github.com/Cyb3r-Jak3/common-typescript",
     "devDependencies": {
-        "@cloudflare/vitest-pool-workers": "^0.5.31",
+        "@cloudflare/vitest-pool-workers": "^0.8.0",
         "@eslint/eslintrc": "^3.2.0",
         "@eslint/js": "^9.15.0",
         "@types/jest": "^29.5.3",
