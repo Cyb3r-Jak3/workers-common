@@ -4,7 +4,7 @@ import {
     JSONAPIErrorResponse,
     HandleCachedResponse,
     HandleCORS,
-} from '../../src/responses'
+} from '../src/responses'
 import { describe, expect, test } from 'vitest'
 
 describe('JSONResponse', () => {

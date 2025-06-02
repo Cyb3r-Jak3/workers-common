@@ -14,13 +14,19 @@ on:
     branches: [main]
     paths: ['package.json']
 
+permissions:
+  contents: read
+  actions: read
+  id-token: write
+  security-events: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        node-version: [20.x, 22.x]
+        node-version: [20.x, 22.x, 24.x]
 
     steps:
     - uses: actions/checkout@v4
@@ -48,7 +54,7 @@ jobs:
         fail_ci_if_error: true
         files: ./coverage/cobertura-coverage.xml
         env_vars: NODE
-        token: ${{ secrets.CODECOV_TOKEN }}
+        use_oidc: true
       env:
         NODE: ${{ matrix.node-version }}
 
@@ -56,7 +62,7 @@ jobs:
       if: ${{ !cancelled() }}
       uses: codecov/test-results-action@v1
       with:
-        token: ${{ secrets.CODECOV_TOKEN }}
+        use_oidc: true
 
     - run: pnpm run build:new
 
