@@ -88,7 +88,5 @@ describe('base64', () => {
             const want = stdDecoded
             expect(got).toStrictEqual(want)
         })
-
-
     })
 })
