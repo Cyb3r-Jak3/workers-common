@@ -1,36 +1,15 @@
-import typescriptEslint from "@typescript-eslint/eslint-plugin";
-import globals from "globals";
-import tsParser from "@typescript-eslint/parser";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
+import globals from "globals";
+import tseslint from "typescript-eslint";
+import json from "@eslint/json";
+import { defineConfig } from "eslint/config";
+import eslintConfigPrettier from 'eslint-config-prettier/flat';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all
-});
-
-export default [
-    ...compat.extends("eslint:recommended", "plugin:@typescript-eslint/recommended"),
-    {
-        plugins: {
-            "@typescript-eslint": typescriptEslint,
-        },
-
-        languageOptions: {
-            globals: {
-                ...globals.browser,
-            },
-
-            parser: tsParser,
-            ecmaVersion: "latest",
-            sourceType: "module",
-        },
-
-        rules: {},
-    },
-];
+export default defineConfig([
+  { files: ["**/*.{js,mjs,cjs,ts,mts,cts}"], plugins: { js }, extends: ["js/recommended"] },
+  { files: ["**/*.{js,mjs,cjs,ts,mts,cts}"], languageOptions: { globals: globals.browser } },
+  tseslint.configs.recommended,
+  { files: ["**/*.json"], plugins: { json }, language: "json/json", extends: ["json/recommended"] },
+  { files: ["**/*.jsonc"], plugins: { json }, language: "json/jsonc", extends: ["json/recommended"] },
+	eslintConfigPrettier,
+]);
