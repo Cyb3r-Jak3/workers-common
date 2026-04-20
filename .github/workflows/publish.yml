@@ -4,6 +4,10 @@ on:
     tags:
       - "v*"
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -25,8 +29,6 @@ jobs:
       - run: pnpm install
 
       - run: pnpm publish --access public --no-git-checks
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Build Package
         id: build-package
