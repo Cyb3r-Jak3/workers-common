@@ -28,9 +28,32 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - run: pnpm pack
+      - name: Build Package
+        id: build-package
+        run: |
+          pnpm pack
+          # Add the built package to the step outputs for later use
+          echo "PACKAGE_PATH=$(find . -name "*.tgz" -print -quit)" >> $GITHUB_OUTPUT
 
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      # - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      #   with:
+      #     name: npm-build
+      #     path: '**.tgz'
+
+      - name: Upload to S3
+        run: |
+          aws s3 cp ${{ steps.build-package.outputs.PACKAGE_PATH }} s3://github-actions-artifacts/npm-builds/workers-common/ --recursive
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.ARTIFACTS_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.ARTIFACTS_AWS_SECRET_ACCESS_KEY }}
+          AWS_ENDPOINT_URL_S3: https://8be772befd147a8df540aae0fa15c047.r2.cloudflarestorage.com
+
+      - name: Add step summary with artifact link
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        env:
+          ARTIFACT_URL: ${{ vars.ARTIFACT_PUBLIC_DOMAIN_BARE }}/npm-builds/
         with:
-          name: npm-build
-          path: '**.tgz'
+          script: |
+            const artifactUrl = process.env.ARTIFACT_URL + 'workers-common/${{ steps.build-package.outputs.PACKAGE_PATH }}';
+            const summaryBody = `Built package has been uploaded to S3. You can download it from the link below.`;
+            core.summary.addHeading('Snapshot Release').addRaw(summaryBody).addBreak().addLink('Download Artifacts', artifactUrl).write();
