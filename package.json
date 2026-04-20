@@ -14,16 +14,15 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Cyb3r-Jak3/common-typescript.git"
+        "url": "git+https://github.com/Cyb3r-Jak3/workers-common.git"
     },
     "author": "Cyb3r-Jak3",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/Cyb3r-Jak3/common-typescript/issues"
+        "url": "https://github.com/Cyb3r-Jak3/workers-common//issues"
     },
     "keywords": [
         "cyb3r-jak3",
-        "shared",
         "workers",
         "cloudflare",
         "cloudflare-workers"
@@ -33,7 +32,7 @@
         "LICENSE",
         "README.md"
     ],
-    "homepage": "https://github.com/Cyb3r-Jak3/common-typescript",
+    "homepage": "https://github.com/Cyb3r-Jak3/workers-common",
     "devDependencies": {
         "@cloudflare/vitest-pool-workers": "^0.11.0",
         "@eslint/eslintrc": "^3.2.0",
