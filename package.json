@@ -33,18 +33,19 @@
         "README.md"
     ],
     "homepage": "https://github.com/Cyb3r-Jak3/workers-common",
+    "type": "module",
     "devDependencies": {
-        "@cloudflare/vitest-pool-workers": "^0.11.0",
+        "@cloudflare/vitest-pool-workers": "^0.16.0",
         "@eslint/eslintrc": "^3.2.0",
         "@eslint/js": "^9.15.0",
         "@eslint/json": "^2.0.0",
-        "@vitest/coverage-istanbul": "^3.0.9",
+        "@vitest/coverage-istanbul": "^4.1.8",
         "eslint": "^9.28.0",
         "eslint-config-prettier": "^10.1.5",
         "globals": "^16.2.0",
         "prettier": "^3.0.0",
         "typescript": "^5.1.6",
         "typescript-eslint": "^8.33.1",
-        "vitest": "3.2.6"
+        "vitest": "4.1.8"
     }
 }
