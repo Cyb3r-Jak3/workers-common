@@ -34,18 +34,11 @@
     ],
     "homepage": "https://github.com/Cyb3r-Jak3/workers-common",
     "type": "module",
-    "exports": {
-        "./package.json": "./package.json",
-        ".": {
-            "import": "./dist/esm/index.js",
-            "require": "./dist/cjs/index.cjs"
-        }
-    },
     "devDependencies": {
         "@cloudflare/vitest-pool-workers": "^0.16.0",
         "@eslint/eslintrc": "^3.2.0",
         "@eslint/js": "^9.15.0",
-        "@eslint/json": "^0.13.0",
+        "@eslint/json": "^2.0.0",
         "@vitest/coverage-istanbul": "^4.1.8",
         "eslint": "^9.28.0",
         "eslint-config-prettier": "^10.1.5",
