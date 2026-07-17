@@ -6,7 +6,7 @@
     "types": "dist/index.d.ts",
     "scripts": {
         "test": "vitest run --coverage",
-        "build:new": "npm run clean && npm run build",
+        "build:new": "pnpm run clean && pnpm run build",
         "build": "tsc",
         "clean": "tsc --build --clean",
         "format": "prettier --write *.json tests/**/*.ts src/**/*.ts",
