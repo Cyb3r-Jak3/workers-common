@@ -4,6 +4,8 @@ import {
     FromHexStringToBytes,
     DecodeBase64Url,
     EncodeBase64Url,
+    NowSeconds,
+    NowMinutes,
 } from '../src/encode'
 import { describe, expect, test, it } from 'vitest'
 
@@ -88,5 +90,26 @@ describe('base64', () => {
             const want = stdDecoded
             expect(got).toStrictEqual(want)
         })
+    })
+})
+
+describe('NowSeconds', () => {
+    test('NowSeconds', () => {
+        const now = new Date()
+        const seconds = Math.floor(now.getTime() / 1000)
+        expect(seconds).toEqual(NowSeconds(now))
+    })
+    test('NowSeconds without date', () => {
+        const seconds = Math.floor(Date.now() / 1000)
+        expect(seconds).toEqual(NowSeconds())
+    })
+    test('NowMinutes', () => {
+        const now = new Date()
+        const minutes = Math.floor(now.getTime() / 1000 / 60)
+        expect(minutes).toEqual(NowMinutes(now))
+    })
+    test('NowMinutes without date', () => {
+        const minutes = Math.floor(Date.now() / 1000 / 60)
+        expect(minutes).toEqual(NowMinutes())
     })
 })

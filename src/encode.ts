@@ -63,7 +63,7 @@ export function FromHexStringToBytes(hexString: string): ArrayBufferLike {
  * @param buf Buffer to encode
  * @returns base64 string
  */
-export const EncodeBase64 = (buf: ArrayBufferLike): string => {
+export const EncodeBase64 = (buf: ArrayBufferLike | Uint8Array): string => {
     let binary = ''
     const bytes = new Uint8Array(buf)
     // #skipcq: JS-0361
@@ -105,5 +105,30 @@ export const DecodeBase64Url = (str: string): Uint8Array => {
  * @param buf Encodes a Uint8Array into a base64url string
  * @returns base64url string
  */
-export const EncodeBase64Url = (buf: ArrayBufferLike): string =>
+export const EncodeBase64Url = (buf: ArrayBufferLike | Uint8Array): string =>
     EncodeBase64(buf).replace(/\/|\+/g, (m) => ({ '/': '_', '+': '-' })[m] ?? m)
+
+/**
+ * Gets the current time in seconds since the epoch
+ * @param date Optional date to use instead of the current time
+ * @returns Current time in seconds since the epoch
+ * @example
+ * NowSeconds() // 1616161616
+ * NowSeconds(new Date('2021-01-01T00:00:00Z')) // 1609459200
+ * @example
+ */
+export function NowSeconds(date?: Date): number {
+    return Math.floor((date?.getTime() ?? Date.now()) / 1000)
+}
+
+/**
+ * Gets the current time in minutes since the epoch
+ * @param date Optional date to use instead of the current time
+ * @returns Current time in minutes since the epoch
+ * @example
+ * NowMinutes() // 1616161616
+ * NowMinutes(new Date('2021-01-01T00:00:00Z')) // 1609459200
+ */
+export function NowMinutes(date?: Date): number {
+    return Math.floor((date?.getTime() ?? Date.now()) / 60000)
+}
