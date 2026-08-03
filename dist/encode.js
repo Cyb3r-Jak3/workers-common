@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,17 +7,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.EncodeBase64Url = exports.DecodeBase64Url = exports.DecodeBase64 = exports.EncodeBase64 = void 0;
-exports.Hex = Hex;
-exports.GenerateHash = GenerateHash;
-exports.FromHexStringToBytes = FromHexStringToBytes;
 /**
  * Turns the array buffer from crypto into a string. Stolen from stackoverflow
  * @param buffer Crypto Buffer
  * @returns Hex string
  */
-function Hex(buffer) {
+export function Hex(buffer) {
     const hexCodes = [];
     const view = new DataView(buffer);
     for (let i = 0; i < view.byteLength; i += 4) {
@@ -41,7 +35,7 @@ function Hex(buffer) {
  * @returns Hex string of the hash
  * @throws Error if the algorithm is not supported
  */
-function GenerateHash(toHash, algorithm) {
+export function GenerateHash(toHash, algorithm) {
     return __awaiter(this, void 0, void 0, function* () {
         return Hex(yield crypto.subtle.digest(algorithm, new TextEncoder().encode(toHash.trim())));
     });
@@ -51,7 +45,7 @@ function GenerateHash(toHash, algorithm) {
  * @param hexString String to hash
  * @returns ArrayBuffer
  */
-function FromHexStringToBytes(hexString) {
+export function FromHexStringToBytes(hexString) {
     const bytes = new Uint8Array(hexString.length / 2);
     for (let idx = 0; idx < hexString.length; idx += 2) {
         bytes[idx / 2] = parseInt(hexString.substring(idx, idx + 2), 16);
@@ -64,7 +58,7 @@ function FromHexStringToBytes(hexString) {
  * @param buf Buffer to encode
  * @returns base64 string
  */
-const EncodeBase64 = (buf) => {
+export const EncodeBase64 = (buf) => {
     let binary = '';
     const bytes = new Uint8Array(buf);
     // #skipcq: JS-0361
@@ -73,13 +67,12 @@ const EncodeBase64 = (buf) => {
     }
     return btoa(binary);
 };
-exports.EncodeBase64 = EncodeBase64;
 /**
  * Decodes a base64 string into a Uint8Array with support for utf-8 characters
  * @param str String to decode
  * @returns Uint8Array of the decoded string
  */
-const DecodeBase64 = (str) => {
+export const DecodeBase64 = (str) => {
     const binary = atob(str);
     const bytes = new Uint8Array(new ArrayBuffer(binary.length));
     const half = binary.length / 2;
@@ -89,21 +82,43 @@ const DecodeBase64 = (str) => {
     }
     return bytes;
 };
-exports.DecodeBase64 = DecodeBase64;
 /**
  * Decodes a base64url string into a Uint8Array
  * @param str URL string to decode
  * @returns Uint8Array of the decoded string
  */
-const DecodeBase64Url = (str) => {
-    return (0, exports.DecodeBase64)(str.replace(/_|-/g, (m) => { var _a; return (_a = ({ _: '/', '-': '+' })[m]) !== null && _a !== void 0 ? _a : m; }));
+export const DecodeBase64Url = (str) => {
+    return DecodeBase64(str.replace(/_|-/g, (m) => { var _a; return (_a = ({ _: '/', '-': '+' })[m]) !== null && _a !== void 0 ? _a : m; }));
 };
-exports.DecodeBase64Url = DecodeBase64Url;
 /**
  * Encodes a Uint8Array into a base64url string
  * @param buf Encodes a Uint8Array into a base64url string
  * @returns base64url string
  */
-const EncodeBase64Url = (buf) => (0, exports.EncodeBase64)(buf).replace(/\/|\+/g, (m) => { var _a; return (_a = ({ '/': '_', '+': '-' })[m]) !== null && _a !== void 0 ? _a : m; });
-exports.EncodeBase64Url = EncodeBase64Url;
+export const EncodeBase64Url = (buf) => EncodeBase64(buf).replace(/\/|\+/g, (m) => { var _a; return (_a = ({ '/': '_', '+': '-' })[m]) !== null && _a !== void 0 ? _a : m; });
+/**
+ * Gets the current time in seconds since the epoch
+ * @param date Optional date to use instead of the current time
+ * @returns Current time in seconds since the epoch
+ * @example
+ * NowSeconds() // 1616161616
+ * NowSeconds(new Date('2021-01-01T00:00:00Z')) // 1609459200
+ * @example
+ */
+export function NowSeconds(date) {
+    var _a;
+    return Math.floor(((_a = date === null || date === void 0 ? void 0 : date.getTime()) !== null && _a !== void 0 ? _a : Date.now()) / 1000);
+}
+/**
+ * Gets the current time in minutes since the epoch
+ * @param date Optional date to use instead of the current time
+ * @returns Current time in minutes since the epoch
+ * @example
+ * NowMinutes() // 1616161616
+ * NowMinutes(new Date('2021-01-01T00:00:00Z')) // 1609459200
+ */
+export function NowMinutes(date) {
+    var _a;
+    return Math.floor(((_a = date === null || date === void 0 ? void 0 : date.getTime()) !== null && _a !== void 0 ? _a : Date.now()) / 60000);
+}
 //# sourceMappingURL=encode.js.map

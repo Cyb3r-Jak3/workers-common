@@ -36,8 +36,8 @@ jobs:
         id: build-package
         run: |
           pnpm pack
-          # Add the built package to the step outputs for later use
-          echo "PACKAGE_PATH=$(find . -name "*.tgz" -print -quit)" >> $GITHUB_OUTPUT
+          # Add the built package to the step outputs for later use, stripping the leading ./ from find's output
+          echo "PACKAGE_PATH=$(find . -name "*.tgz" -print -quit | sed 's#^\./##')" >> $GITHUB_OUTPUT
 
       - name: Upload to S3
         run: |

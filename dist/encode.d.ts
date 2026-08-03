@@ -24,7 +24,7 @@ export declare function FromHexStringToBytes(hexString: string): ArrayBufferLike
  * @param buf Buffer to encode
  * @returns base64 string
  */
-export declare const EncodeBase64: (buf: ArrayBufferLike) => string;
+export declare const EncodeBase64: (buf: ArrayBufferLike | Uint8Array) => string;
 /**
  * Decodes a base64 string into a Uint8Array with support for utf-8 characters
  * @param str String to decode
@@ -42,5 +42,24 @@ export declare const DecodeBase64Url: (str: string) => Uint8Array;
  * @param buf Encodes a Uint8Array into a base64url string
  * @returns base64url string
  */
-export declare const EncodeBase64Url: (buf: ArrayBufferLike) => string;
+export declare const EncodeBase64Url: (buf: ArrayBufferLike | Uint8Array) => string;
+/**
+ * Gets the current time in seconds since the epoch
+ * @param date Optional date to use instead of the current time
+ * @returns Current time in seconds since the epoch
+ * @example
+ * NowSeconds() // 1616161616
+ * NowSeconds(new Date('2021-01-01T00:00:00Z')) // 1609459200
+ * @example
+ */
+export declare function NowSeconds(date?: Date): number;
+/**
+ * Gets the current time in minutes since the epoch
+ * @param date Optional date to use instead of the current time
+ * @returns Current time in minutes since the epoch
+ * @example
+ * NowMinutes() // 1616161616
+ * NowMinutes(new Date('2021-01-01T00:00:00Z')) // 1609459200
+ */
+export declare function NowMinutes(date?: Date): number;
 //# sourceMappingURL=encode.d.ts.map

@@ -1,15 +1,11 @@
-"use strict";
 // Taken from https://github.com/anuraghazra/github-readme-stats/blob/master/src/common/utils.js
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.IsValidHexColor = exports.EncodeHTML = exports.ClampValue = exports.ParseStringArray = exports.ParseBoolean = void 0;
-exports.Formatter = Formatter;
 /**
  * Returns boolean if value is either "true" or "false" else the value as it is.
  *
  * @param {string | boolean} value The value to parse.
  * @returns {boolean | undefined } The parsed value.
  */
-const ParseBoolean = (value) => {
+export const ParseBoolean = (value) => {
     if (typeof value === 'boolean')
         return value;
     if (typeof value === 'string') {
@@ -22,7 +18,6 @@ const ParseBoolean = (value) => {
     }
     return undefined;
 };
-exports.ParseBoolean = ParseBoolean;
 /**
  * Parse string to array of strings.
  *
@@ -30,12 +25,11 @@ exports.ParseBoolean = ParseBoolean;
  * @param {delimiter} str Character to split string by
  * @returns {string[]} The array of strings.
  */
-const ParseStringArray = (str, delimiter = ',') => {
+export const ParseStringArray = (str, delimiter = ',') => {
     if (!str)
         return [];
     return str.split(delimiter);
 };
-exports.ParseStringArray = ParseStringArray;
 /**
  * Clamp the given number between the given range.
  *
@@ -44,7 +38,7 @@ exports.ParseStringArray = ParseStringArray;
  * @param {number} max The maximum value.
  * returns {number} The clamped number.
  */
-const ClampValue = (number, min, max) => {
+export const ClampValue = (number, min, max) => {
     if (typeof number === 'string') {
         number = parseInt(number);
     }
@@ -52,7 +46,6 @@ const ClampValue = (number, min, max) => {
         return min;
     return Math.max(min, Math.min(number, max));
 };
-exports.ClampValue = ClampValue;
 /**
  * Encode string as HTML.
  *
@@ -61,22 +54,20 @@ exports.ClampValue = ClampValue;
  * @param {string} str String to encode.
  * @returns {string} Encoded string.
  */
-const EncodeHTML = (str) => {
+export const EncodeHTML = (str) => {
     return str.replace(/[\u00A0-\u9999<>&](?!#)/gimu, (i) => {
         return `&#${i.charCodeAt(0)};`;
     });
 };
-exports.EncodeHTML = EncodeHTML;
 /**
  * Checks if a string is a valid hex color.
  *
  * @param {string} hexColor String to check.
  * @returns {boolean} True if the given string is a valid hex color.
  */
-const IsValidHexColor = (hexColor) => {
+export const IsValidHexColor = (hexColor) => {
     return new RegExp(/^([A-Fa-f0-9]{8}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}|[A-Fa-f0-9]{4})$/).test(hexColor);
 };
-exports.IsValidHexColor = IsValidHexColor;
 /**
  * Function to replace ${key} in a string with the value of key in the keys object
  *
@@ -85,7 +76,7 @@ exports.IsValidHexColor = IsValidHexColor;
  * @param keys The keys to format the string with
  * @returns The formatted string
  */
-function Formatter(str, keys) {
+export function Formatter(str, keys) {
     return str.replace(/\${([a-zA-Z\d]+)}/g, (_, name) => { var _a; return (_a = keys[name]) !== null && _a !== void 0 ? _a : str.match(/\${([a-zA-Z\d]+)}/g)[0]; });
 }
 //# sourceMappingURL=tools.js.map
