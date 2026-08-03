@@ -3,13 +3,10 @@
 	"extends": [
 		"github>Cyb3r-Jak3/renovate-configs//group-cf-workers-packages.json",
 		"schedule:earlyMondays",
-		"github>Cyb3r-Jak3/renovate-configs//recommend-extended.json"
+		"github>Cyb3r-Jak3/renovate-configs//recommend-extended.json",
+		"github>Cyb3r-Jak3/renovate-configs//monthly-lockfile.json"
 	],
-
 	"constraints": {
 		"pnpm": "^11.0.0"
-	},
-	"lockFileMaintenance": {
-		"enabled": true
 	}
 }
